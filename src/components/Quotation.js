@@ -34,7 +34,7 @@ function Quotation() {
       .then((data) => {
         data = data.filter((e) => "code" in e);
 
-        console.log(data);
+        // console.log(data);
         const z = data.map((v) => (
           <option key={v._id} value={v._id}>
             {v.name}
@@ -48,11 +48,9 @@ function Quotation() {
   const deleteProduct = () => {
     let item = products.find((v) => itemRef.current.value === v._id);
     console.log("Item to be deleted", item);
-    fetch(`${API_URL}/products`, {
+    fetch(`${API_URL}/products/${item._id}`, {
       method: "DELETE",
-      body: JSON.stringify({
-        _id: item._id,
-      }),
+      mode: "cors"
     })
       .then((res) => res.json)
       .then((data) => {
@@ -65,7 +63,7 @@ function Quotation() {
 
   const addItem = () => {
     let item = products.find((v) => itemRef.current.value === v._id);
-    console.log(item);
+    // console.log(item);
     var itemObj = {
       _id: item._id,
       code: item.code,
@@ -77,8 +75,32 @@ function Quotation() {
     dataItems.push(itemObj);
     setDataItems([...dataItems]);
     setLocalDataItems(JSON.stringify(dataItems));
-    console.log("after", dataItems);
+    // console.log("after", dataItems);
   };
+
+  const saveQuotation = (currentData) => {
+    console.log(currentData);
+    fetch(`${API_URL}/quotations`, {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      // credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(currentData), // body data type must match "Content-Type" header
+    }) .then((res) => res.json)
+    .then((data) => {
+      setDataItems([]);
+      setLocalDataItems(JSON.stringify([]));
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }
 
   const updateDataItems = (dataItems) => {
     setDataItems([...dataItems]);
@@ -142,6 +164,7 @@ function Quotation() {
             data={dataItems}
             clearDataItems={clearDataItems}
             updateDataItems={updateDataItems}
+            saveQuotationHandler={saveQuotation}
           />
         </Col>
       </Row>

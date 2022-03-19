@@ -4,7 +4,7 @@ import { Container, Row, Col, Button, Table } from "react-bootstrap";
 import style from "../mystyle.module.css";
 import { FaTrashAlt } from "react-icons/fa";
 
-function QuotationTable({ data, clearDataItems, updateDataItems }) {
+function QuotationTable({ data, clearDataItems, updateDataItems, saveQuotationHandler}) {
   // const [dataItems, setDataItems] = useState(data);
   const [dataRows, setDataRows] = useState();
   const [total, setTotal] = useState(0);
@@ -41,6 +41,19 @@ function QuotationTable({ data, clearDataItems, updateDataItems }) {
     setDataRows([]);
   };
 
+  const saveHandler = () => {
+    const dataFilter = data.map((currentData) => {
+      return {
+        code: currentData.code,
+        name: currentData.name,
+        pricePerUnit: currentData.price,
+        qty: currentData.qty,
+            }
+    });
+
+    saveQuotationHandler(dataFilter);
+  }
+
   const formatNumber = (x) => {
     x = Number.parseFloat(x)
     return x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -51,6 +64,10 @@ function QuotationTable({ data, clearDataItems, updateDataItems }) {
       <h1>Quotation</h1>
       <Button onClick={clearTable} variant="outline-dark">
         Clear
+      </Button>
+      &nbsp; &nbsp;
+      <Button className="px-5" onClick={saveHandler}>
+        Save
       </Button>
       <Table striped bordered hover>
         <thead>
