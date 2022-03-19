@@ -14,11 +14,20 @@ import ProductManagement from "./components/ProductManagement";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { Login } from "./components/Login";
 import QuotationManagement from "./components/QuotationManagement";
+import style from "./mystyle.module.css";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
   const [user, setUser] = useState();
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      setUser(loggedInUser)
+      console.log(loggedInUser)
+    }
+  }, [])
 
   const handleLogin = (data) => {
     console.log("handleLogin", data);
@@ -40,14 +49,21 @@ function App() {
         } else {
           window.alert("Welcome " + data.name);
           console.log(data);
-          setUser(data);
+          setUser(data.name);
+          localStorage.setItem('user', data.name);
         }
       });
   };
 
+  const handleLogout = () => {
+    setUser();
+    localStorage.clear();
+  }
+
   return (
     <Router>
-      <Navbar bg="dark" variant="dark">
+      { user &&
+        <Navbar className={style.colornav} variant="light">
         <Container>
           <Navbar.Brand href="#home">VMS Company</Navbar.Brand>
           <Nav className="me-auto">
@@ -62,6 +78,7 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
+      }
 
       <Routes>
         <Route
@@ -76,7 +93,19 @@ function App() {
           element={
             <Container>
               {user ? (
-                <div>Hello {user.name}</div>
+                <>
+                <div>
+                  <h1>
+                  Welcome {user}
+                  </h1>
+                </div>
+                <div>
+                  <Button variant="danger" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </div>
+                </>
+              
               ) : (
                 <Login onLogin={handleLogin} />
               )}

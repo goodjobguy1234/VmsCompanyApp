@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Table } from "react-bootstrap";
 
 import style from "../mystyle.module.css";
 import { FaTrashAlt } from "react-icons/fa";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 function QuotationTable({ data, clearDataItems, updateDataItems, saveQuotationHandler}) {
   // const [dataItems, setDataItems] = useState(data);
@@ -62,35 +63,46 @@ function QuotationTable({ data, clearDataItems, updateDataItems, saveQuotationHa
   return (
     <div>
       <h1>Quotation</h1>
+      
       <Button onClick={clearTable} variant="outline-dark">
         Clear
       </Button>
-      &nbsp; &nbsp;
-      <Button className="px-5" onClick={saveHandler}>
+
+      <div>____</div>
+      <br></br>
+
+      <Row className="mx-0 px-0">
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th style={{ width: "20px" }}>&nbsp;</th>
+              <th className={style.textCenter}>Qty</th>
+              <th className={style.textCenter}>Item</th>
+              <th className={style.textCenter}>Price/Unit</th>
+              <th className={style.textCenter}>Amount</th>
+            </tr>
+          </thead>
+          <tbody>{dataRows}</tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={4} className={style.textRight}>
+                Total
+              </td>
+              <td className={style.textRight}>
+                {formatNumber(total)}
+              </td>
+            </tr>
+          </tfoot>
+        </Table>
+      </Row>
+     
+      <Row className="mx-0 px-0">
+    
+      <Button onClick={saveHandler}>
         Save
       </Button>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th style={{ width: "20px" }}>&nbsp;</th>
-            <th className={style.textCenter}>Qty</th>
-            <th className={style.textCenter}>Item</th>
-            <th className={style.textCenter}>Price/Unit</th>
-            <th className={style.textCenter}>Amount</th>
-          </tr>
-        </thead>
-        <tbody>{dataRows}</tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={4} className={style.textRight}>
-              Total
-            </td>
-            <td className={style.textRight}>
-              {formatNumber(total)}
-            </td>
-          </tr>
-        </tfoot>
-      </Table>
+      </Row>
+      
     </div>
   );
 }

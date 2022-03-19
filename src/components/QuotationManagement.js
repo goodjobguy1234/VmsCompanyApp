@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import { FaTrashAlt, FaPencilAlt, FaPlus } from "react-icons/fa";
 import style from "../mystyle.module.css";
+
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 export default function QuotationManagement() {
@@ -82,8 +83,24 @@ export default function QuotationManagement() {
     };
       
     return (
-        <>
-    <Container>
+    <div  style={{
+        background: "rgb(131,58,180)",
+        background: "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)",
+      height: "100%",
+      position: "absolute",
+      left: "0px",
+      width: "100%",
+      overflow: "hidden"
+      }}>
+    <br></br>
+        <div >
+    
+    <Container className="px-5 py-5" style={{background:"rgb(255,255,255,0.7)",
+          borderRadius: "17px",
+          boxShadow:"0 4px 30px rgba(0, 0, 0, 0.1)",
+          backdropFilter: "blur(5px)",
+          webkitBackdropFilter: "blur(5px)",
+          border: "1px solid rgba(255, 255, 255, 0.3)"}}>
         <h1>Quotation Management</h1>
         {/* API_URL: {API_URL} */}
         <Link to="/quotation-build">
@@ -116,6 +133,8 @@ export default function QuotationManagement() {
         </tfoot>
       </Table>
       </Container>
-        </>
+    </div>
+    </div>
+    
     )
 }

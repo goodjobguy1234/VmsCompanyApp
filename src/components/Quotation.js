@@ -11,6 +11,7 @@ import {
 import { useLocalStorage } from "react-use";
 import QuotationTable from "./QuotationTable";
 
+
 function Quotation() {
   const API_URL = process.env.REACT_APP_API_URL;
   const itemRef = useRef();
@@ -120,9 +121,13 @@ function Quotation() {
     console.log(priceRef.current.value);
   };  
   return (
-    <Container>
-      <Row>
-        <Col md={4} style={{ backgroundColor: "#e4e4e4" }}>
+    <div>
+      <Container>
+      <Row style={{height: "100%",
+      position: "absolute",
+      left: "0",
+      width: "100%"}}>
+        <Col className="px-5" md={4} style={{ backgroundColor: "#e4e4e4"}}>
           <Row>
             <Col>
               Item
@@ -169,6 +174,8 @@ function Quotation() {
         </Col>
       </Row>
     </Container>
+    </div>
+    
   );
 }
 
