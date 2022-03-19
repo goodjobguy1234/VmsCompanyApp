@@ -90,10 +90,10 @@ export default function QuotationManagement() {
       position: "absolute",
       left: "0px",
       width: "100%",
-      overflow: "hidden"
+      overflow:"scroll"
       }}>
     <br></br>
-        <div >
+        
     
     <Container className="px-5 py-5" style={{background:"rgb(255,255,255,0.7)",
           borderRadius: "17px",
@@ -108,7 +108,8 @@ export default function QuotationManagement() {
             <FaPlus /> Add
             </Button>
         </Link>
-    
+    <div style={{height:"500px",
+            overflow: "scroll"}}>
         <Table striped bordered hover>
         <thead>
           <tr>
@@ -132,9 +133,8 @@ export default function QuotationManagement() {
           </tr>
         </tfoot>
       </Table>
+      </div>
       </Container>
     </div>
-    </div>
-    
     )
 }
