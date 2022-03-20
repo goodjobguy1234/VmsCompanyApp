@@ -18,7 +18,7 @@ function QuotationTable({ data, clearDataItems, updateDataItems, saveQuotationHa
       return (
         <tr key={i}>
           <td className={style.textCenter}>
-            <FaTrashAlt onClick={() => deleteItem(v.code)} />
+            <FaTrashAlt onClick={() => deleteItem(v.code, v.price)} />
           </td>
           <td className={style.textCenter}>{v.qty}</td>
           <td>{v.name}</td>
@@ -32,8 +32,14 @@ function QuotationTable({ data, clearDataItems, updateDataItems, saveQuotationHa
     setTotal(sum);
   }, [data]);
 
-  const deleteItem = (code) => {
-    var z = data.filter((value, index, arr) => value.code != code);
+  const deleteItem = (code, price) => {
+    var z = [...data];
+    z.forEach((data, i) => {
+      if(data.code == code && data.price == price) {
+        z.splice(i,1);
+      }
+    })
+
     updateDataItems(z);
   };
 
@@ -70,6 +76,7 @@ function QuotationTable({ data, clearDataItems, updateDataItems, saveQuotationHa
 
       <div>____</div>
       <br></br>
+      <div style={{overflow: "auto", height:"35vw"}}>
 
       <Row className="mx-0 px-0">
         <Table striped bordered hover>
@@ -95,6 +102,9 @@ function QuotationTable({ data, clearDataItems, updateDataItems, saveQuotationHa
           </tfoot>
         </Table>
       </Row>
+
+      </div>
+     
      
       <Row className="mx-0 px-0">
     

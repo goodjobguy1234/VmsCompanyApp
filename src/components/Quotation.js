@@ -46,6 +46,7 @@ function Quotation() {
       });
   }, []);
 
+
   const deleteProduct = () => {
     let item = products.find((v) => itemRef.current.value === v._id);
     console.log("Item to be deleted", item);
@@ -55,7 +56,7 @@ function Quotation() {
     })
       .then((res) => res.json)
       .then((data) => {
-        console.log("Delete ", data);
+        // console.log("Delete ", data);
       })
       .catch((err) => {
         console.error(err);
@@ -73,7 +74,20 @@ function Quotation() {
       qty: qtyRef.current.value,
     };
 
-    dataItems.push(itemObj);
+    let {isHave, itemIndex} = checkRedundant(itemObj._id, itemObj.price);
+    if(isHave) {
+      dataItems[itemIndex] = {
+        _id: item._id,
+        code: item.code,
+        name: item.name,
+        price: priceRef.current.value,
+        qty: parseInt(dataItems[itemIndex].qty) + parseInt(qtyRef.current.value)
+      }
+    } else {
+      dataItems.push(itemObj);
+    }
+
+    // dataItems.push(itemObj);
     setDataItems([...dataItems]);
     setLocalDataItems(JSON.stringify(dataItems));
     // console.log("after", dataItems);
@@ -113,6 +127,24 @@ function Quotation() {
     setLocalDataItems(JSON.stringify([]));
   };
 
+  const checkRedundant = (itemId, itemPrice) => {
+    let isHave = false
+    let itemIndex = -1
+    console.log(dataItems)
+  
+    dataItems.forEach((element,index) => {
+
+      if(element._id === itemId && element.price === itemPrice) {
+        isHave = true
+        itemIndex = index
+      }
+    });
+    return {
+      "isHave": isHave,
+      "itemIndex": itemIndex
+    }
+  }
+
   const productChange = () => {
     console.log("productChange", itemRef.current.value);
     let item = products.find((v) => itemRef.current.value === v._id);
@@ -140,6 +172,7 @@ function Quotation() {
             <Col>
               <Form.Label>Price Per Unit</Form.Label>
               <Form.Control
+                min={0}
                 type="number"
                 ref={priceRef}
                 value={price}
@@ -150,7 +183,7 @@ function Quotation() {
           <Row>
             <Col>
               <Form.Label>Quantity</Form.Label>
-              <Form.Control type="number" ref={qtyRef} defaultValue={1} />
+              <Form.Control type="number" ref={qtyRef} defaultValue={1} min={1}/>
             </Col>
           </Row>
           <hr />
