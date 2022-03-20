@@ -27,7 +27,7 @@ function Quotation() {
 
   const [products, setProducts] = useState([]);
   const [productOptions, setProductOptions] = useState([]);
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(1);
 
   useEffect(() => {
     fetch(`${API_URL}/products`)
@@ -172,7 +172,7 @@ function Quotation() {
             <Col>
               <Form.Label>Price Per Unit</Form.Label>
               <Form.Control
-                min={0}
+                min={1}
                 type="number"
                 ref={priceRef}
                 value={price}
